@@ -1,24 +1,24 @@
 window.onload = function(){
 //canvas init
-var canvas = document.getElementById("confetti");
+var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
 //canvas dimensions
-var w = window.innerWidth;
-var h = window.innerHeight;
-canvas.width = w + 100;
-canvas.height = h / 3;
+var W = window.innerWidth;
+var H = window.innerHeight;
+canvas.width = W;
+canvas.height = H;
 
 //snowflake particles
-var num_confetti = 400; //max particles
+var mp = 400; //max particles
 var particles = [];
-for(var i = 0; i < num_confetti; i++)
+for(var i = 0; i < mp; i++)
 {
     particles.push({
-        x: Math.random() * w, //x-coordinate
-        y: Math.random() * h, //y-coordinate
-        r: Math.random() * 10+1, //radius
-        d: Math.random() * num_confetti, //density
+        x: Math.random()*W, //x-coordinate
+        y: Math.random()*H, //y-coordinate
+        r: Math.random()*4+1, //radius
+        d: Math.random()*mp, //density
         color: "rgba(" + Math.floor((Math.random() * 255)) +", " + Math.floor((Math.random() * 255)) +", " + Math.floor((Math.random() * 255)) + ", 0.8)"
     })
 }
@@ -26,11 +26,11 @@ for(var i = 0; i < num_confetti; i++)
 //Lets draw the flakes
 function draw()
 {
-    ctx.clearRect(10, 10, w, h);
+    ctx.clearRect(0, 0, W, H);
 
 
 
-    for(var i = 0; i < num_confetti; i++)
+    for(var i = 0; i < mp; i++)
     { 
         var p = particles[i];
         ctx.beginPath();
@@ -49,7 +49,7 @@ var angle = 0;
 function update()
 {
     angle += 0.01;
-    for(var i = 0; i < num_confetti; i++)
+    for(var i = 0; i < mp; i++)
     {
         var p = particles[i];
         //Updating X and Y coordinates
@@ -61,11 +61,11 @@ function update()
 
         //Sending flakes back from the top when it exits
         //Lets make it a bit more organic and let flakes enter from the left and right also.
-        if(p.x > w + 5 || p.x < -5 || p.y > h)
+        if(p.x > W+5 || p.x < -5 || p.y > H)
         {
-            if(i % 3 > 0) //66.67% of the flakes
+            if(i%3 > 0) //66.67% of the flakes
             {
-                particles[i] = {x: Math.random() * w, y: -10, r: p.r, d: p.d, color : p.color};
+                particles[i] = {x: Math.random()*W, y: -10, r: p.r, d: p.d, color : p.color};
             }
             else
             {
@@ -73,12 +73,12 @@ function update()
                 if(Math.sin(angle) > 0)
                 {
                     //Enter from the left
-                    particles[i] = {x: -5, y: Math.random() * h, r: p.r, d: p.d, color: p.color};
+                    particles[i] = {x: -5, y: Math.random()*H, r: p.r, d: p.d, color: p.color};
                 }
                 else
                 {
                     //Enter from the right
-                    particles[i] = {x: w + 5, y: Math.random() * h , r: p.r, d: p.d, color : p.color};
+                    particles[i] = {x: W+5, y: Math.random()*H, r: p.r, d: p.d, color : p.color};
                 }
             }
         }
